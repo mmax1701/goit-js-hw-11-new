@@ -3,11 +3,14 @@ import Notiflix from "notiflix";
 
 const KEY = '37350286-5f3aac9a725d44d4223b6e61c'
 let search;
+let page = 1;
 
 const form = document.querySelector('.search-form');
 const input = document.querySelector('input[name="searchQuery"]')
-const button = document.querySelector('button[type="submit"]')
+const button = document.querySelector('.load-more')
 const list = document.querySelector('.gallery')
+
+button.style.display = 'none';
 
 form.addEventListener('submit', onSubmit)
 
@@ -19,7 +22,7 @@ function onSubmit(evt) {
 }
 
 function createMarkup() {
-    const URL = `https://pixabay.com/api/?key=${KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true`;
+    const URL = `https://pixabay.com/api/?key=${KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`;
 
     fetch(URL)
         .then(resp => {
@@ -54,6 +57,8 @@ function createMarkup() {
                 </div>
                 </div>`
             }).join('');
+
+            button.style.display = 'block';
         })
         .catch(err => err);
 }
