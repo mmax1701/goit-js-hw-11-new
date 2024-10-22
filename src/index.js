@@ -31,10 +31,31 @@ function createMarkup() {
         .then(data => {
             if (data.total === 0) {
                 console.log("Sorry, there are no images matching your search query. Please try again.");
+                list.innerHTML = '';
+                return;
             }
-            console.log(data)
+
+            list.innerHTML = data.hits.map(elem => {
+                return `<div class="photo-card">
+                <img src="${elem.webformatURL}" alt="${elem.tags}" loading="lazy" />
+                <div class="info">
+                    <p class="info-item">
+                    <b>${elem.likes}</b>
+                    </p>
+                    <p class="info-item">
+                    <b>${elem.views}</b>
+                    </p>
+                    <p class="info-item">
+                    <b>${elem.comments}</b>
+                    </p>
+                    <p class="info-item">
+                    <b>${elem.downloads}</b>
+                    </p>
+                </div>
+                </div>`
+            }).join('');
         })
-        .catch(err => err)
+        .catch(err => err);
 }
 
 
